@@ -61,7 +61,7 @@ create src folder & file name app.ts or frnzserver.ts
 Install dependencies
 </p>
 
-    pnpm add express dotenv cors date-fns
+    pnpm add express dotenv cors date-fns valibot
 
 <p>
 Install Dev dependencies
