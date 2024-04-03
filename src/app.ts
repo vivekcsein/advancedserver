@@ -1,13 +1,15 @@
 import express, { Express, Request, Response } from "express";
 import * as dotenv from "dotenv";
-import cors, { CorsOptions } from "cors";
-import { indexHTML } from "./configs/constants/importFiles.js";
+import cors from "cors";
 import { logger } from "./configs/middlewares/logger.js"
 import { errorHandler } from "./configs/middlewares/errorHandler.js"
 import { corsOptions } from "./configs/constants/corsOptions.js"
 import { defualtRoutes } from "./configs/constants/DefaultRoutes.js";
+
 //api imports
-import subdirRoutes from "./api/v101/routes/subdir/subdirRoutes.js"
+import rootRoutes from "./api/v101/routes/rootRoutes.js"
+import authRoutes from "./api/v101/routes/auth/authRoutes.js"
+import products from "./api/v101/routes/products/products.js"
 
 // express configurations
 dotenv.config();
@@ -16,6 +18,7 @@ if (!process.env.SERVER_PORT) {
 }
 const PORT: number = parseInt(process.env.SERVER_PORT as string, 10) | 7164;
 
+//initialise express app
 const app: Express = express();
 
 //logger middleware
@@ -26,23 +29,24 @@ app.use(cors(corsOptions));
 
 // server side rendering
 app.use(express.urlencoded({ extended: true }));
+
 // Serve static files
 app.use(express.static(process.cwd() + "/src/view"));
-app.use(express.static(process.cwd() + "/public"));
+// app.use(express.static(process.cwd() + "/public"));
+
+// middleware for json files
 app.use(express.json());
 
-//API route
-// app.get('/', (req, res: Response) => {
-//     res.send('Hello From Server');
+//index page request
+app.use("/", rootRoutes)
+
+// app.get("^/$|/index(.html)?", (req: Request, res: Response) => {
+//     res.sendFile(indexHTML);
 // });
 
-//index page request
-app.get("^/$|/index(.html)?", (req: Request, res: Response) => {
-    res.sendFile(indexHTML);
-});
-
 // api routes for subdir
-app.use("/", subdirRoutes)
+app.use("/", authRoutes)
+app.use("/api/products", products)
 
 //not found page app route
 app.all("*", defualtRoutes);

@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { notFound404 } from "./importFiles.js";
+import { notFound404 } from "./staticHTML.js";
 
 export const defualtRoutes = (req: Request, res: Response) => {
     res.status(404)

@@ -1,5 +1,5 @@
-import { Router, Request, Response, NextFunction } from "express";
-import { signInPage, signUpPage } from "../../../../configs/constants/importFiles.js"
+import { Router, Request, Response } from "express";
+import { signInPage, signUpPage } from "../../../../configs/constants/staticHTML.js"
 const router = Router();
 
 router.get("/signin(.html)?", (req: Request, res: Response) => {

@@ -1,0 +1,16 @@
+{
+  "productsData": [
+    {
+      "id": 1,
+      "name": "iphone15",
+      "price": "800$",
+      "description": "This is latest Iphone"
+    },
+    {
+      "id": 2,
+      "name": "iphone14",
+      "price": "600$",
+      "description": "This is latest older Iphone"
+    }
+  ]
+}
