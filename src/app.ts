@@ -1,10 +1,16 @@
 import express, { Express, Request, Response } from "express";
 import * as dotenv from "dotenv";
-import cors from "cors";
-dotenv.config();
-import { indexHTML, notFound404 } from "./configs/constants/import.js";
+import cors, { CorsOptions } from "cors";
+import { indexHTML } from "./configs/constants/importFiles.js";
 import { logger } from "./configs/middlewares/logger.js"
+import { errorHandler } from "./configs/middlewares/errorHandler.js"
+import { corsOptions } from "./configs/constants/corsOptions.js"
+import { defualtRoutes } from "./configs/constants/DefaultRoutes.js";
+//api imports
+import subdirRoutes from "./api/v101/routes/subdir/subdirRoutes.js"
 
+// express configurations
+dotenv.config();
 if (!process.env.SERVER_PORT) {
     process.exit(1);
 }
@@ -15,7 +21,10 @@ const app: Express = express();
 //logger middleware
 app.use(logger)
 
-app.use(cors());
+// applying cors(cross origin resource sharing policy )
+app.use(cors(corsOptions));
+
+// server side rendering
 app.use(express.urlencoded({ extended: true }));
 // Serve static files
 app.use(express.static(process.cwd() + "/src/view"));
@@ -32,10 +41,14 @@ app.get("^/$|/index(.html)?", (req: Request, res: Response) => {
     res.sendFile(indexHTML);
 });
 
+// api routes for subdir
+app.use("/", subdirRoutes)
+
 //not found page app route
-app.get("/*", (req: Request, res: Response) => {
-    res.status(404).sendFile(notFound404);
-});
+app.all("*", defualtRoutes);
+
+//error handling
+app.use(errorHandler)
 
 // start server
 const startserver = async () => {

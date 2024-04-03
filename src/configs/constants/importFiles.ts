@@ -11,3 +11,7 @@ export const notFound404 = path.join(__dirname, viewDir, "notFound-404.html");
 
 //exported folder paths
 export const logFolder = path.join(__dirname, logDir);
+
+//signin/signup files
+export const signInPage = path.join(__dirname, viewDir, "/auth/signin.html")
+export const signUpPage = path.join(__dirname, viewDir, "/auth/signup.html") 
