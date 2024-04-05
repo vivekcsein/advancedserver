@@ -1,6 +1,6 @@
 import { Express, Request, Response, NextFunction } from "express";
 import { CorsOptions } from "cors";
-import { whitelistedServer } from "./serverlist.js";
+import { whitelistedServer } from "../constants/serverlist.js";
 // cors options
 export const corsOptions: CorsOptions = {
     origin: (origin, callback) => {

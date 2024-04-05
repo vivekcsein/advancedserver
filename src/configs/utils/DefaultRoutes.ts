@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
-import { notFound404 } from "./staticHTML.js";
+import { notFound404 } from "../constants/staticHTML.js";
 
-export const defualtRoutes = (req: Request, res: Response) => {
+export const defaultRoutes = (req: Request, res: Response) => {
     res.status(404)
     if (req.accepts("html")) {
         res.sendFile(notFound404);

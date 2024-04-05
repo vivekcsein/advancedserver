@@ -3,8 +3,8 @@ import * as dotenv from "dotenv";
 import cors from "cors";
 import { logger } from "./configs/middlewares/logger.js"
 import { errorHandler } from "./configs/middlewares/errorHandler.js"
-import { corsOptions } from "./configs/constants/corsOptions.js"
-import { defualtRoutes } from "./configs/constants/DefaultRoutes.js";
+import { corsOptions } from "./configs/utils/corsOptions.js"
+import { defaultRoutes } from "./configs/utils/DefaultRoutes.js";
 
 //api imports
 import rootRoutes from "./api/v101/routes/rootRoutes.js"
@@ -49,7 +49,7 @@ app.use("/", authRoutes)
 app.use("/api/products", products)
 
 //not found page app route
-app.all("*", defualtRoutes);
+app.all("*", defaultRoutes);
 
 //error handling
 app.use(errorHandler)
