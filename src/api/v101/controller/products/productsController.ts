@@ -1,7 +1,6 @@
-import { Router, Request, Response } from "express";
-import { productsJson, writeProductsJson } from "../../../../configs/constants/staticJSON.js"
-import { v4 as uuidv4 } from 'uuid';
-
+import { Request, Response } from "express";
+import { productsJson, writeProductsJson, updateProductJson, deleteProductJson } from "../../../../configs/constants/staticJSON.js"
+// import { v4 as uuidv4 } from 'uuid';
 
 const data = {
     products: productsJson,
@@ -15,18 +14,19 @@ export const getAllProducts = (req: Request, res: Response) => {
 }
 
 export const createNewProduct = (req: Request, res: Response) => {
-    const newProduct = {
-        "id": uuidv4(),
+    const newData = {
+        // "id": uuidv4(),
+        "id": data.products.productsData.length + 1,
         "name": req.body.name,
         "price": parseFloat(req.body.price) || 0,
         "description": req.body.description,
         ...req.body
     }
-    if (!newProduct.name || !newProduct.price || !newProduct.desc) return res.status(400).send({ error: "Missing fields!" });
+    if (!newData.name || !newData.price || !newData.desc) return res.status(400).send({ error: "Missing fields!" });
 
     try {
         // Write data to the JSON file using async/await
-        writeProductsJson(newProduct);
+        writeProductsJson(newData);
         res.send('Data written to file successfully to json file');
     } catch (err) {
         console.error(err);
@@ -35,32 +35,45 @@ export const createNewProduct = (req: Request, res: Response) => {
 }
 
 export const updateProduct = (req: Request, res: Response) => {
-    let newdata = {
+    let newData: ProductData = {
+        id: parseInt(req.body.id),
         name: "",
         price: "",
-
+        desc: ""
     }
-    let updatedProdIndex = data.products.productsData.findIndex((item: any) => item.id === parseInt(req.params.productId));
+    let updatedProdIndex: number = data.products.productsData.findIndex((item: any) => item.id === parseInt(req.body.id));
+
     if (!updatedProdIndex) {
         return res.status(400).json({ "message: ": "No product provided to be updated." })
     }
-    if (req.body.name) newdata.name = req.body.name;
-    if (req.body.price) newdata.price = req.body.price;
+    if (req.body.name) newData.name = req.body.name;
+    if (req.body.price) newData.price = req.body.price;
+    if (req.body.desc) newData.desc = req.body.desc;
 
-
-    let updatedProd = [...data.products.productsData];
-
-
-    // res.json({
-    //     "id": uuidv4(),
-    //     "name": req.body.name,
-    //     "description": req.body.description,
-    //     ...req.body
-    // })
+    try {
+        // Write data to the JSON file using async/await
+        updateProductJson(newData, updatedProdIndex);
+        res.send('Data updated successfully to json file');
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Error updating to file');
+    }
 }
 
 export const deleteProduct = (req: Request, res: Response) => {
-    res.json({ "id": req.body.id })
+
+    let updatedProdIndex: number = data.products.productsData.findIndex((item: any) => item.id === parseInt(req.body.id));
+    if (!updatedProdIndex) {
+        return res.status(400).json({ "message: ": "No product provided to be updated." })
+    }
+    try {
+        // Write data to the JSON file using async/await
+        deleteProductJson(updatedProdIndex);
+        res.send('Data Delete successfully from json file');
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Error deleting data to file');
+    }
 }
 
 export const getProduct = (req: Request, res: Response) => {
