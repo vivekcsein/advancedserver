@@ -1,6 +1,8 @@
-import express, { Express, Request, Response } from "express";
-import * as dotenv from "dotenv";
+import express, { Express } from "express";
 import cors from "cors";
+
+// import configs
+import { envConfig } from "./configs/constants/envConfig.js";
 import { logger } from "./configs/middlewares/logger.js"
 import { errorHandler } from "./configs/middlewares/errorHandler.js"
 import { corsOptions } from "./configs/utils/corsOptions.js"
@@ -11,12 +13,14 @@ import rootRoutes from "./api/v101/routes/rootRoutes.js"
 import authRoutes from "./api/v101/routes/auth/authRoutes.js"
 import products from "./api/v101/routes/products/products.js"
 
-// express configurations
-dotenv.config();
-if (!process.env.SERVER_PORT) {
+//import database connection
+import connectDB from "./configs/db/mongoDB.js";
+
+const PORT: number = envConfig.PORT;
+if (!PORT) {
+    console.log("port not found");
     process.exit(1);
 }
-const PORT: number = parseInt(process.env.SERVER_PORT as string, 10) | 7164;
 
 //initialise express app
 const app: Express = express();
@@ -51,12 +55,15 @@ app.use("/api/products", products)
 //not found page app route
 app.all("*", defaultRoutes);
 
-//error handling
+//global error handling
 app.use(errorHandler)
 
 // start server
 const startserver = async () => {
     try {
+        // request database connection before start server
+        await connectDB();
+        //  server config
         await new Promise((resolve, reject) => {
             const server = app.listen(PORT, () => {
                 console.log(`Server running on http://localhost:${PORT}`);
