@@ -1,10 +1,10 @@
 interface ProductsData {
-    productsData: Array<ProductData>;
+  productsData: Array<ProductData>;
 }
 
 interface ProductData {
-    id: number,
-    name?: string;
-    price?: string;
-    desc?: string;
+  id: number;
+  name?: string;
+  price?: string;
+  desc?: string;
 }

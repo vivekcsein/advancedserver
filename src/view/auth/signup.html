@@ -2,14 +2,35 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign Up</title>
-    <link rel="stylesheet" href="../css/globals.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign Up</title>
+  <link rel="stylesheet" href="../css/globals.css">
 </head>
 
 <body>
-    <h1>Welcome to SignUP page</h1>
+  <h1 class="textcenter">Welcome to SignUP page</h1>
+
+  <form action="/api/user" method="post" class="boxcenter">
+    <div class="box">
+      <div class="boxitem">
+        <label for="username">Username: </label>
+        <input type="text" id="username" name="username"><br>
+        <!-- <p>{{ usernameErr }}</p><br> -->
+      </div>
+      <div class="boxitem">
+        <label for="username">Email: </label>
+        <input type="text" id="email" name="email"><br>
+        <!-- <p>{{ emailErr }}</p><br> -->
+      </div>
+      <div class="boxitem">
+        <label for="username">password: </label>
+        <input type="password" id="password" name="password"><br>
+        <!-- <p>{{ passwordErr }}</p><br> -->
+      </div>
+      <button type="submit">Signup</button>
+    </div>
+  </form>
 
 </body>
 

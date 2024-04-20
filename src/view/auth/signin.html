@@ -2,14 +2,32 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign In</title>
-    <link rel="stylesheet" href="../css/globals.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign In</title>
+  <link rel="stylesheet" href="../css/globals.css">
 </head>
 
 <body>
-    <h1>Welcome to SignIN page</h1>
+  <h1 class="textcenter">Welcome to SignIN page</h1>
+
+  <form action="/api/user" method="post" class="boxcenter">
+    <div class="box">
+      <!-- <div class="boxitem">
+                <label for="username">Username: </label>
+                <input type="text" id="username" name="username"><br>
+            </div> -->
+      <div class="boxitem">
+        <label for="username">Email: </label>
+        <input type="text" id="email" name="email"><br>
+      </div>
+      <div class="boxitem">
+        <label for="username">password: </label>
+        <input type="password" id="password" name="password"><br>
+      </div>
+      <button type="submit">Signin</button>
+    </div>
+  </form>
 </body>
 
 </html>
